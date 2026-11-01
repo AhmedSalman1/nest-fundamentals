@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -23,7 +24,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): UserEntity | undefined {
+  findOne(@Param('id', ParseUUIDPipe) id: string): UserEntity | undefined {
+    // console.log(typeof id);
     return this.users.find((user: UserEntity) => user.id === id);
   }
 
@@ -38,7 +40,10 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     // Find the element index that we want to update
     const userIndex = this.users.findIndex(
       (user: UserEntity) => user.id === id,
@@ -55,7 +60,7 @@ export class UsersController {
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     const userIndex = this.users.findIndex(
       (user: UserEntity) => user.id === id,
     );
