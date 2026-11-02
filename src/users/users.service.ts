@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserEntity } from './user.entity.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
@@ -6,6 +6,10 @@ import { v7 as uuidv7 } from 'uuid';
 
 @Injectable()
 export class UserService {
+  constructor(@Inject('APP_NAME') private appName: string) {
+    console.log(`UserService initialized for ${this.appName}`);
+  }
+
   private users: UserEntity[] = [];
 
   findAllUsers(): UserEntity[] {
