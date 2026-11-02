@@ -39,6 +39,13 @@ const configFactory = {
   },
 };
 
+// Asynchronous providers
+class DatabaseConnection {
+  async connectToDB(): Promise<string> {
+    return await Promise.resolve('Connected to DB successfully');
+  }
+}
+
 @Module({
   controllers: [UsersController],
   providers: [
@@ -48,6 +55,8 @@ const configFactory = {
 
     LoggerService,
     loggerServiceAliasProvider,
+
+    DatabaseConnection,
 
     configFactory,
 
@@ -73,11 +82,19 @@ const configFactory = {
           : DevelopmentConfigService,
     },
 
-    //* 4. factory based provider
+    //* 4. factory based provider + async factory based provider
     {
       provide: USER_HABITS,
-      useFactory: (userHabits: UserHabitsFactory) => userHabits.getHabits(),
-      inject: [UserHabitsFactory],
+      useFactory: async (
+        userHabits: UserHabitsFactory,
+        dbConnection: DatabaseConnection,
+      ) => {
+        const dbStatus = await dbConnection.connectToDB();
+
+        console.log(dbStatus);
+        return userHabits.getHabits();
+      },
+      inject: [UserHabitsFactory, DatabaseConnection],
     },
   ],
   exports: [USER_HABITS],
