@@ -1,7 +1,7 @@
 import { Injectable, Module } from '@nestjs/common';
 import { UsersController } from './users.controller.js';
 import { UserService } from './users.service.js';
-import { APP_NAME, USER_HABITS } from './user.constants.js';
+import { APP_NAME, CONFIG, USER_HABITS } from './user.constants.js';
 import {
   ConfigService,
   DevelopmentConfigService,
@@ -32,6 +32,13 @@ const loggerServiceAliasProvider = {
   useExisting: LoggerService,
 };
 
+const configFactory = {
+  provide: CONFIG,
+  useFactory: () => {
+    return process.env.NODE_ENV === 'development' ? 'devConfig' : 'prodConfig';
+  },
+};
+
 @Module({
   controllers: [UsersController],
   providers: [
@@ -41,6 +48,8 @@ const loggerServiceAliasProvider = {
 
     LoggerService,
     loggerServiceAliasProvider,
+
+    configFactory,
 
     //! Custom provider
     //* 1. value based provider
@@ -71,6 +80,6 @@ const loggerServiceAliasProvider = {
       inject: [UserHabitsFactory],
     },
   ],
-  exports: [USER_HABITS]
+  exports: [USER_HABITS],
 })
 export class UserModule {}
