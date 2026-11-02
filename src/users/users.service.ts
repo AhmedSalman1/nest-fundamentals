@@ -3,11 +3,20 @@ import { UserEntity } from './user.entity.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { v7 as uuidv7 } from 'uuid';
+import { ConfigService } from './config.service.js';
 
 @Injectable()
 export class UserService {
-  constructor(@Inject('APP_NAME') private appName: string) {
+  constructor(
+    @Inject('APP_NAME') private appName: string,
+    private readonly configService: ConfigService,
+    @Inject('USER_HABITS') private userHabits: string[],
+  ) {
     console.log(`UserService initialized for ${this.appName}`);
+    console.log(
+      `ConfigService initialized with config: ${this.configService.constructor.name}`,
+    );
+    console.log(`User habits: ${this.userHabits.join(', ')}`);
   }
 
   private users: UserEntity[] = [];
