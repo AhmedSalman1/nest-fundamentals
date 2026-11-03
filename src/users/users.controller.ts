@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   HttpCode,
   Param,
@@ -9,6 +10,7 @@ import {
   Patch,
   Post,
   Req,
+  // UseFilters,
   // UsePipes,
   // ValidationPipe,
 } from '@nestjs/common';
@@ -18,6 +20,7 @@ import { UserEntity } from './user.entity.js';
 import { UserService } from './users.service.js';
 import { UserResponseDto } from './dtos/user-response.dto.js';
 import type { Request } from 'express';
+// import { CustomExceptionFilter } from '../common/filters/custom-exception.filter.js';
 
 @Controller('Users')
 export class UsersController {
@@ -38,7 +41,9 @@ export class UsersController {
   }
 
   @Post()
+  // @UseFilters(new CustomExceptionFilter())
   create(@Body() createUserDto: CreateUserDto): UserResponseDto {
+    // throw new ForbiddenException();
     return this.userService.createUser(createUserDto);
   }
 

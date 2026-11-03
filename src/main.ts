@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 // import { LoggingInterceptor } from './common/interceptors/logging.interceptor.js';
 // import { WrapDataInterceptor } from './common/interceptors/wrap-data.interceptor.js';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor.js';
+import { CustomExceptionFilter } from './common/filters/custom-exception.filter.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +28,8 @@ async function bootstrap() {
     // new WrapDataInterceptor(),
     new TimeoutInterceptor(),
   );
+
+  app.useGlobalFilters(new CustomExceptionFilter());
 
   await app.listen(process.env.PORT ?? 3000);
 }

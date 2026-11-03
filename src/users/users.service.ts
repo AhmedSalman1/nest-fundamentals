@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { v7 as uuidv7 } from 'uuid';
 import { ConfigService } from './config.service.js';
 import { UserResponseDto } from './dtos/user-response.dto.js';
+import { CustomHttpException } from '../common/exceptions/custom-http.exception.js';
 
 @Injectable()
 export class UserService {
@@ -33,6 +34,7 @@ export class UserService {
 
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
+      // throw new CustomHttpException();
     }
 
     return new UserResponseDto(user);
