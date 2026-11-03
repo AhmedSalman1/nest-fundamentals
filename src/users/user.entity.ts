@@ -4,4 +4,5 @@ export class UserEntity {
   age?: number;
   email: string;
   country: string;
+  password: string;
 }

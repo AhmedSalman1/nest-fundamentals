@@ -13,6 +13,7 @@ import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { UserEntity } from './user.entity.js';
 import { UserService } from './users.service.js';
+import { UserResponseDto } from './dtos/user-response.dto.js';
 
 @Controller('Users')
 export class UsersController {
@@ -24,12 +25,12 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string): UserEntity | undefined {
+  findOne(@Param('id', ParseUUIDPipe) id: string): UserResponseDto | undefined {
     return this.userService.findUserById(id);
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserDto): UserResponseDto {
     return this.userService.createUser(createUserDto);
   }
 

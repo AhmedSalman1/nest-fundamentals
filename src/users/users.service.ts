@@ -1,9 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UserEntity } from './user.entity.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { v7 as uuidv7 } from 'uuid';
 import { ConfigService } from './config.service.js';
+import { UserResponseDto } from './dtos/user-response.dto.js';
 
 @Injectable()
 export class UserService {
@@ -27,17 +28,24 @@ export class UserService {
     return this.users;
   }
 
-  findUserById(id: string): UserEntity | undefined {
-    return this.users.find((user: UserEntity) => user.id === id);
+  findUserById(id: string): UserResponseDto {
+    const user = this.users.find((user: UserEntity) => user.id === id);
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return new UserResponseDto(user);
   }
 
-  createUser(createUserDto: CreateUserDto): UserEntity {
+  createUser(createUserDto: CreateUserDto): UserResponseDto {
     const newUser: UserEntity = {
       ...createUserDto,
       id: uuidv7(),
     };
     this.users.push(newUser);
-    return newUser;
+
+    return new UserResponseDto(newUser);
   }
 
   updateUser(id: string, updateUserDto: UpdateUserDto): UserEntity {
