@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { ValidationPipe } from '@nestjs/common';
 // import { LoggingInterceptor } from './common/interceptors/logging.interceptor.js';
-import { WrapDataInterceptor } from './common/interceptors/wrap-data.interceptor.js';
+// import { WrapDataInterceptor } from './common/interceptors/wrap-data.interceptor.js';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor.js';
 
 async function bootstrap() {
@@ -24,7 +24,7 @@ async function bootstrap() {
 
   // @ Apply WrapDataInterceptor and TimeoutInterceptor globally to all incoming requests, No need to DI.
   app.useGlobalInterceptors(
-    new WrapDataInterceptor(),
+    // new WrapDataInterceptor(),
     new TimeoutInterceptor(),
   );
 
