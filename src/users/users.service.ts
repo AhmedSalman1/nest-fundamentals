@@ -14,12 +14,12 @@ export class UserService {
     @Inject('USER_HABITS') private userHabits: string[],
     @Inject('CONFIG') private config: string,
   ) {
-    console.log(`UserService initialized for ${this.appName}`);
-    console.log(
-      `ConfigService initialized with config: ${this.configService.constructor.name}`,
-    );
-    console.log(`User habits: ${this.userHabits.join(', ')}`);
-    console.log(`Config: ${this.config}`);
+    // console.log(`UserService initialized for ${this.appName}`);
+    // console.log(
+    //   `ConfigService initialized with config: ${this.configService.constructor.name}`,
+    // );
+    // console.log(`User habits: ${this.userHabits.join(', ')}`);
+    // console.log(`Config: ${this.config}`);
   }
 
   private users: UserEntity[] = [];
