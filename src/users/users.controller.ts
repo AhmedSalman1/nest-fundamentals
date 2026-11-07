@@ -10,10 +10,6 @@ import {
   Patch,
   Post,
   Req,
-  UseGuards,
-  // UseFilters,
-  // UsePipes,
-  // ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
@@ -22,8 +18,6 @@ import { UserService } from './users.service.js';
 import { UserResponseDto } from './dtos/user-response.dto.js';
 import type { Request } from 'express';
 import { Public } from '../common/decorators/public.decorator.js';
-import { AuthGuard } from '../common/guards/auth.guard.js';
-// import { CustomExceptionFilter } from '../common/filters/custom-exception.filter.js';
 
 @Controller('Users')
 export class UsersController {
@@ -32,10 +26,6 @@ export class UsersController {
   @Public()
   @Get()
   async findAll(@Req() req: Request): Promise<UserEntity[]> {
-    // delay 5 seconds
-    // console.log(req.body);
-
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
     return this.userService.findAllUsers();
   }
 
@@ -44,11 +34,8 @@ export class UsersController {
     return this.userService.findUserById(id);
   }
 
-  // @UseGuards(AuthGuard)
   @Post()
-  // @UseFilters(new CustomExceptionFilter())
   create(@Body() createUserDto: CreateUserDto): UserResponseDto {
-    // throw new ForbiddenException();
     return this.userService.createUser(createUserDto);
   }
 

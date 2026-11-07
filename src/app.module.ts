@@ -1,44 +1,10 @@
-import {
-  ClassSerializerInterceptor,
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { UserModule } from './users/users.module.js';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { LoggingInterceptor } from './common/interceptors/logging.interceptor.js';
-import { WrapDataInterceptor } from './common/interceptors/wrap-data.interceptor.js';
-// import { AuthGuard } from './common/guards/auth.guard.js';
 import { CommonModule } from './common/common.module.js';
-import { LoggerMiddleware } from './common/middlewares/logger.middleware.js';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [UserModule, CommonModule],
-  providers: [
-    // CustomLoggerService
-
-    // 1. Logging first
-    { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
-
-    // 2. WrapData second
-    { provide: APP_INTERCEPTOR, useClass: WrapDataInterceptor },
-
-    // 3. Serializer third
-    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
-
-    // Guards
-    // { provide: APP_GUARD, useClass: AuthGuard },
-  ],
+  providers: [{ provide: APP_PIPE, useClass: ValidationPipe }],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .exclude(
-        { path: 'users/:id', method: RequestMethod.PATCH },
-        { path: 'users/:id', method: RequestMethod.DELETE },
-      )
-      .forRoutes('*');
-  }
-}
+export class AppModule {}
