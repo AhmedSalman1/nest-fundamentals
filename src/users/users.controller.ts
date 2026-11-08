@@ -18,10 +18,22 @@ import { UserService } from './users.service.js';
 import { UserResponseDto } from './dtos/user-response.dto.js';
 import type { Request } from 'express';
 import { Public } from '../common/decorators/public.decorator.js';
+import { ConfigService } from '@nestjs/config';
+
+interface EnvironmentVariables {
+  EMAIL: string;
+  API_BASE_URL: string;
+}
 
 @Controller('Users')
 export class UsersController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly configService: ConfigService<EnvironmentVariables>,
+    private readonly userService: UserService,
+  ) {
+    console.log(this.configService.get('EMAIL', { infer: true }));
+    console.log(this.configService.get('API_BASE_URL', { infer: true }));
+  }
 
   @Public()
   @Get()

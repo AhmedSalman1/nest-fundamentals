@@ -1,6 +1,8 @@
 import { Injectable, Module } from '@nestjs/common';
+// import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersController } from './users.controller.js';
 import { UserService } from './users.service.js';
+// import { UserEntity } from './user.entity.js';
 import { APP_NAME, CONFIG, USER_HABITS } from './user.constants.js';
 import {
   ConfigService,
@@ -47,6 +49,7 @@ class DatabaseConnection {
 }
 
 @Module({
+  // imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UsersController],
   providers: [
     //! Standard provider

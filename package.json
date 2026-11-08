@@ -12,6 +12,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
+    "start:stag": "cross-env NODE_ENV=staging nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "cross-env NODE_ENV=production node dist/main",
     "lint": "oxlint --type-aware src/ test/",
@@ -23,13 +24,16 @@
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",
+    "@nestjs/config": "^12.1.1",
     "@nestjs/core": "^12.0.1",
     "@nestjs/platform-express": "^12.0.1",
+    "@nestjs/typeorm": "^12.0.3",
     "@types/uuid": "^10.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "typeorm": "^1.1.2",
     "uuid": "^14.0.3"
   },
   "devDependencies": {
