@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   Get,
   HttpCode,
+  Logger,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -27,6 +28,8 @@ interface EnvironmentVariables {
 
 @Controller('Users')
 export class UsersController {
+  private readonly logger = new Logger(UsersController.name);
+
   constructor(
     private readonly configService: ConfigService<EnvironmentVariables>,
     private readonly userService: UserService,
@@ -38,7 +41,16 @@ export class UsersController {
   @Public()
   @Get()
   async findAll(@Req() req: Request): Promise<UserEntity[]> {
-    return this.userService.findAllUsers();
+    this.logger.log('Attempting to fetch all users...');
+    this.logger.warn('Database connection is running slow...');
+    this.logger.error('Failed to fetch users!', 'Stack trace details here');
+
+    const users = await this.userService.findAllUsers();
+
+    this.logger.debug(`Found ${users.length} users`);
+    console.log(`Found ${users.length} users`);
+
+    return users;
   }
 
   @Public()
